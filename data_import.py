@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import csv
+import time
 
 
 # Iegūstam DB informāciju no vides mainīgajiem
@@ -43,13 +44,11 @@ def veido_vd_tabulu():
     """
     conn = psycopg2.connect(dsn)
     c = conn.cursor()
-    c.execute("""DROP TABLE vardadienas;""")
+    c.execute("""DROP TABLE IF EXISTS vardadienas;""")
     c.execute("""CREATE TABLE vardadienas
                 (vards TEXT COLLATE "lv-x-icu" PRIMARY KEY, diena INT NOT NULL, menesis INT NOT NULL);""")
     c.execute("""CREATE INDEX d1 ON vardadienas(diena);""")
     c.execute("""CREATE INDEX m1 ON vardadienas(menesis);""")
-    skaits = c.rowcount
-    print(skaits)
     c.close()
     conn.commit()
     conn.close()
@@ -61,22 +60,22 @@ def piepilda_vd_tabulu(datne):
     c = conn.cursor()
     sql = "INSERT INTO vardadienas VALUES(%s, %s, %s)"
     
-    vardu_dati = [] 
-    with open(datne, "r") as f:
+    vardu_dati = []
+
+    with open(datne, "r", encoding='utf-8') as f:
         reader = csv.reader(f)
         for line in reader:
             vardu_dati.append(line)
     
     c.executemany(sql, vardu_dati)
     skaits = c.rowcount
-    print(skaits)
     conn.commit()
     c.close()
     conn.close()
-    return "OK"
+    return skaits
 
 
-def vd_vaicajums(sql):
+def vaicajuma_parbaude(sql):
     try:
         conn = psycopg2.connect(dsn)
         c = conn.cursor()
@@ -91,10 +90,14 @@ def vd_vaicajums(sql):
 
 print(parbauda_db_savienojumu())
 
-# print(veido_vd_tabulu())
+print("Izveido tabulu")
+print(veido_vd_tabulu())
 
-# print(vd_vaicajums("SELECT vards FROM vardadienas;"))
+t1 = time.perf_counter()
+print("Piepilda tabulu")
+print(piepilda_vd_tabulu("dati/vardadienas.txt"))
+t2 = time.perf_counter()
+print(f"Datu importēšana aizņēma {t2 - t1:0.4f} sekundes")
 
-# print(piepilda_vd_tabulu("dati/vardadienas.txt"))
-
-# print(vd_vaicajums("SELECT vards FROM vardadienas;"))
+print("Ierakstu skaits tabulā:")
+print(vaicajuma_parbaude("SELECT vards FROM vardadienas;"))

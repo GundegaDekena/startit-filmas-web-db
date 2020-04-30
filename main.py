@@ -27,6 +27,17 @@ def vd_kad(vards):
     return render_template('vardadienas.html', vardi=[resultats])
 
 
+@app.route('/vd/satur/<teksts>')
+def vd_satur(teksts):
+    atbilde = varda_dala(teksts)
+    print(type(atbilde))
+    resultats = []
+    for v in atbilde:
+        print(v)
+        resultats.append({"vards": v[0], "m": "{:02d}".format(v[2]), "d": v[1]})
+    return render_template('vardadienas.html', vardi=resultats)
+
+
 @app.route('/vd/menesis/<menesis>')
 def vd_diena(menesis):
     atbilde = menesa_vardi(menesis)

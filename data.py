@@ -10,6 +10,11 @@ def varda_diena(vards):
     atbilde = get_one(sql, t)
     return atbilde
 
+def varda_dala(teksts):
+    sql = "SELECT * FROM vardadienas WHERE vards LIKE '%%s%' ORDER BY vards"
+    t = (vards,)
+    atbilde = get_all(sql, t)
+    return atbilde
 
 def menesa_vardi(menesis):
     sql = "SELECT * FROM vardadienas WHERE menesis=%s ORDER BY diena"
