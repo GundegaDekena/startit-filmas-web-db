@@ -2,7 +2,7 @@ import datetime
 import os
 import psycopg2
 from flask import Flask, g, render_template
-from data import varda_diena, menesa_vardi, diena
+from data import varda_diena, menesa_vardi, diena, filma_no_id, filmas_vecakas_par
 
 
 app = Flask('app')
@@ -57,6 +57,13 @@ def vd_sodien():
     for v in atbilde:
         resultats.append({"vards": v[0], "m": "{:02d}".format(v[2]), "d": v[1]})
     return render_template('vardadienas.html', vardi=resultats)
+
+
+# Filmu routes
+@app.route('/filma/<fid>')
+def filmas_info(fid):
+    atbilde = filma_no_id(fid)
+    return render_template('filma.html', filma=atbilde)
 
 
 # Kad pieprasījums beidzies, aizver savienojumu ar datubāzi
