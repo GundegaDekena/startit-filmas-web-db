@@ -21,6 +21,12 @@ Pašlaik ir divi branchi - *master*, kur ir tikai vienkāršs savienojuma tests 
 1. Ieraksta savus pieslēguma datus *master* zarā datnē `data.py`
   Palaiž programmu lokāli (komandas `python main.py` vai `heroku local`), notestē vai DB pieslēgums darbojas atverot pārlūkprogrammā <http://127.0.0.1:5000/>
 
+1. Pārslēdzas uz zaru *0.1-vardadienas*
+
+1. Aplūko, atkomentē attiecīgās rindiņas un palaiž datu importa programmu `python data_import.py`. Importēšana aizņems 1.5-2 minūtes.
+
+1. Aplūko jauno tabulu ElephantSQL lapā.
+
 1. Ieraksta savus pieslēguma datus datnē *.env* (piemērs ir zarā *0.1-vardadienas* datnē .piemera-env)
 
 1. Heroku -> Settings -> Config Vars sadaļā izveido sekojošus mainīgos, kam piešķir attiecīgās vērtības:
@@ -29,10 +35,10 @@ Pašlaik ir divi branchi - *master*, kur ir tikai vienkāršs savienojuma tests 
   ELEPHANT_NAME
   ELEPHANT_PASSWORD
 
-1. Ielasa `.env` vērtības lokāli izmantojot *Git Bash* ar komandu: 
+1. Ielasa `.env` vērtības lokāli izmantojot *Git Bash* ar komandu:
 
   `source .env`
 
    pārbauda vai programma strādā lokāli
 
-1. Veic *deploy* uz Heroku zaram *0.1-vardadienas*
+1. Veic *deploy* uz Heroku zaram *0.1-vardadienas* (vai veic *pull request* uz zaru *master* un Heroku lieto to)
